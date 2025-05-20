@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      spacing="20" alignment="CENTER" styleClass="container"
+      prefWidth="600" prefHeight="600">
+
+    <Label text="Typing Test Platform" styleClass="h2 text-primary" />
+
+    <Button text="Take Test" fx:id="takeTestButton" prefWidth="220" styleClass="btn, btn-primary, btn-lg" />
+    <Button text="WPM Leaderboard" fx:id="wpmLeaderboardButton" prefWidth="220" styleClass="btn, btn-secondary, btn-lg" />
+    <Button text="My Achievements" fx:id="achievementsButton" prefWidth="220" styleClass="btn, btn-success, btn-lg" />
+    <Button text="My Notifications" fx:id="notificationsButton" prefWidth="220" styleClass="btn, btn-warning, btn-lg" />
+    <Button text="Take a Random Challenge!" fx:id="randomChallengeButton" prefWidth="220" styleClass="btn, btn-info, btn-lg" />
+    <Button text="Completed Challenges" fx:id="completedChallengesButton" prefWidth="220" styleClass="btn, btn-dark, btn-lg" />
+    <Button text="Score Leaderboard" fx:id="scoreLeaderboardButton" prefWidth="220" styleClass="btn, btn-light, btn-lg" />
+
+    <Button text="Log Out" fx:id="logoutButton" prefWidth="220" styleClass="btn, btn-danger,btn-lg" />
+</VBox>
