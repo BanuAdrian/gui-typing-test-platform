@@ -63,4 +63,18 @@ public class NotificationRepository {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteNotification(int notificationId, Connection connection) {
+        String sql = """
+                delete from notifications
+                where id = ?
+                """;
+
+        try(PreparedStatement preparedStatement = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            preparedStatement.setInt(1, notificationId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -29,17 +29,17 @@ public class UserChallengeRepository {
                 List<UserChallenge> userChallengeList = new ArrayList<>();
 
                 while (resultSet.next()) {
-                    int challengeId = resultSet.getInt(2);
-                    boolean isCompleted = resultSet.getBoolean(3);
-                    String challengeName = resultSet.getString(5);
-                    String description = resultSet.getString(6);
-                    ChallengeType challengeType = ChallengeType.valueOf(resultSet.getString(7));
-                    int score = resultSet.getInt(8);
+                    int challengeId = resultSet.getInt(3);
+                    boolean isCompleted = resultSet.getBoolean(4);
+                    String challengeName = resultSet.getString(6);
+                    String description = resultSet.getString(7);
+                    ChallengeType challengeType = ChallengeType.valueOf(resultSet.getString(8));
+                    int score = resultSet.getInt(9);
                     if (challengeType == ChallengeType.SPEED) {
-                        int targetWpm = resultSet.getInt(9);
+                        int targetWpm = resultSet.getInt(10);
                         userChallengeList.add(new UserChallenge(userId, challengeId, isCompleted, new SpeedChallenge(challengeId, challengeName, description, score, targetWpm)));
                     } else if (challengeType == ChallengeType.TIME) {
-                        int targetSeconds = resultSet.getInt(10);
+                        int targetSeconds = resultSet.getInt(11);
                         userChallengeList.add(new UserChallenge(userId, challengeId, isCompleted, new TimeChallenge(challengeId, challengeName, description, score, targetSeconds)));
                     }
                 }

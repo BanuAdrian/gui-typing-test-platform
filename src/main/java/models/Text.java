@@ -7,16 +7,18 @@ public class Text {
     private final String content;
     private final TextCategory textCategory;
 
-
     public Text(int id, String content, TextCategory textCategory) {
         this.id = id;
         this.content = content;
         this.textCategory = textCategory;
     }
 
-    public Text(String content, TextCategory textCategory) {
-        this.content = content;
-        this.textCategory = textCategory;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getContent() {
@@ -34,13 +36,5 @@ public class Text {
                 ", content='" + content + '\'' +
                 ", textCategory=" + textCategory +
                 '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 }

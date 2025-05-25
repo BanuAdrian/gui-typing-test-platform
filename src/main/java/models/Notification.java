@@ -2,7 +2,7 @@ package models;
 
 import java.util.Objects;
 
-public class Notification {
+public class Notification implements Listable {
     private int notificationId;
     private int userId;
 
@@ -19,9 +19,6 @@ public class Notification {
         this.message = message;
     }
 
-    public Notification(String message) {
-        this.message = message;
-    }
 
     public int getNotificationId() {
         return notificationId;
@@ -48,11 +45,6 @@ public class Notification {
     }
 
     @Override
-    public String toString() {
-        return "From " + message.split("\\s")[1];
-    }
-
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -65,5 +57,13 @@ public class Notification {
         return Objects.hash(message);
     }
 
+    @Override
+    public String textWhenSelected() {
+        return message;
+    }
 
+    @Override
+    public String textInList() {
+        return "Notification from " + message.split("\\s")[1];
+    }
 }

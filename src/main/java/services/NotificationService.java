@@ -33,4 +33,12 @@ public class NotificationService {
             throw new RuntimeException(e);
         }
     }
+
+    public void deleteNotification(int notificationId) {
+        try(Connection connection = ConnectionProvider.getConnection()) {
+            notificationRepository.deleteNotification(notificationId, connection);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

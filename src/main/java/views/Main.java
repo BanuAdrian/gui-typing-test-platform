@@ -14,8 +14,12 @@ public class Main extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/view/startscreen-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
-        scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
-        stage.setTitle("Hello!");
+        try {
+            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
+        } catch (NullPointerException e) {
+            System.out.println("Failed to load stylesheet!");
+        }
+        stage.setTitle("Typing Test Platform");
         stage.setScene(scene);
         stage.show();
     }

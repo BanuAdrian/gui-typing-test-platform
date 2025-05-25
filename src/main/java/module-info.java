@@ -3,6 +3,7 @@ module gui.typing.test.platform {
     requires org.kordamp.bootstrapfx.core;
     requires javafx.controls;
     requires java.sql;
+    requires java.desktop;
 
     exports views;
     exports controllers;
@@ -10,4 +11,5 @@ module gui.typing.test.platform {
     opens controllers to javafx.fxml;
     opens views to javafx.fxml;
     opens css to javafx.fxml;
+    opens images to javafx.fxml;
 }

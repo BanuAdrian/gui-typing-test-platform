@@ -10,14 +10,8 @@ public class SpeedAchievement extends Achievement {
         this.requiredWpm = requiredWpm;
     }
 
-    public SpeedAchievement(int requiredWpm) {
-        super(Integer.toString(requiredWpm) + "+ WPM", "Score more than " + Integer.toString(requiredWpm) + "WPM.");
-        this.requiredWpm = requiredWpm;
-    }
-
     @Override
     public boolean isAchieved(User user) {
-//        return user.getTypingTests().getLast().getWpm() >= requiredWpm;
         return user
                 .getTypingTests()
                 .stream()

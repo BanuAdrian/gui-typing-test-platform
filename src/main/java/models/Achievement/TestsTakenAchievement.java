@@ -10,12 +10,7 @@ public class TestsTakenAchievement extends Achievement {
         this.requiredTests = requiredTests;
     }
 
-    public TestsTakenAchievement(int requiredTests) {
-        super(Integer.toString(requiredTests) + " tests taken", "Finish " + Integer.toString(requiredTests) + " tests.");
-        this.requiredTests = requiredTests;
-    }
-
-//    @Override
+    @Override
     public boolean isAchieved(User user) {
         return user.getTypingTests().size() >= requiredTests;
     }

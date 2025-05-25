@@ -13,27 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-//public class AchievementRepository {
-//    private final List<Achievement> achievements;
-//
-//    public AchievementRepository() {
-//        achievements = new ArrayList<>();
-//        achievements.add(new SpeedAchievement(50));
-//        achievements.add(new SpeedAchievement(60));
-//        achievements.add(new SpeedAchievement(70));
-//        achievements.add(new SpeedAchievement(80));
-//        achievements.add(new SpeedAchievement(90));
-//        achievements.add(new SpeedAchievement(100));
-//        achievements.add(new TestsTakenAchievement(1));
-//        achievements.add(new TestsTakenAchievement(5));
-//        achievements.add(new TestsTakenAchievement(10));
-//    }
-//
-//    public List<Achievement> getAchievements() {
-//        return achievements;
-//    }
-//}
-
 public class AchievementRepository {
     public Optional<List<Achievement>> getAchievements(Connection connection) {
         String sql = """

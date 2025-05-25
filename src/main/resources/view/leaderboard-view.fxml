@@ -2,17 +2,31 @@
 
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<VBox xmlns="http://javafx.com/javafx/23.0.1"
+      xmlns:fx="http://javafx.com/fxml/1"
+      spacing="15"
+      alignment="TOP_CENTER"
+      prefWidth="600" prefHeight="400"
+      style="-fx-background-color: white; -fx-padding: 20; -fx-background-radius: 10;
+             -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.15), 10, 0, 0, 4);">
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
-    <children>
-        <ListView fx:id="leaderboardListView" layoutX="200.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
-        <Label fx:id="leaderboardLabel" alignment="CENTER" layoutY="36.0" prefHeight="43.0" prefWidth="600.0" text="Select an entry">
-            <font>
-                <Font size="29.0" />
-            </font>
-        </Label>
-    </children>
-</AnchorPane>
+    <Label fx:id="leaderboardLabel"
+           text="Select an user"
+           style="-fx-text-fill: #2C3E50; -fx-font-weight: bold;"
+           alignment="CENTER"
+           prefWidth="560"
+           wrapText="true">
+        <font>
+            <Font size="28" />
+        </font>
+    </Label>
+
+    <ListView fx:id="leaderboardListView"
+              prefWidth="560"
+              prefHeight="320"
+              style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #ccc; -fx-font-size: 18px" />
+
+</VBox>

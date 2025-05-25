@@ -1,44 +1,9 @@
 package models.Achievement;
 
-//public class model.Achievement.Achievement {
-//    private String name;
-//    private String description;
-//
-//    public model.Achievement.Achievement(String name, String description) {
-//        this.name = name;
-//        this.description = description;
-//    }
-//
-//    public String getName() {
-//        return name;
-//    }
-//
-//    public String getDescription() {
-//        return description;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return name + " [" + description + "]";
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        model.Achievement.Achievement that = (model.Achievement.Achievement) o;
-//        return Objects.equals(name, that.name) && Objects.equals(description, that.description);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(name, description);
-//    }
-//}
-
+import models.Listable;
 import models.User;
 
-public abstract class Achievement {
+public abstract class Achievement implements Listable {
     protected int id;
     protected String name;
     protected String description;
@@ -52,11 +17,6 @@ public abstract class Achievement {
     public Achievement(String name, String description) {
         this.name = name;
         this.description = description;
-    }
-
-    @Override
-    public String toString() {
-        return name;
     }
 
     public abstract boolean isAchieved(User user);
@@ -83,5 +43,15 @@ public abstract class Achievement {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String textWhenSelected() {
+        return description;
+    }
+
+    @Override
+    public String textInList() {
+        return name;
     }
 }

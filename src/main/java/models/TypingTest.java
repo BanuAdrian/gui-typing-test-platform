@@ -1,7 +1,6 @@
 package models;
 
-public class TypingTest implements Comparable<TypingTest> {
-
+public class TypingTest {
     private int id;
     private int userId;
     private int textId;
@@ -22,11 +21,30 @@ public class TypingTest implements Comparable<TypingTest> {
         this.wpm = wpm;
         this.correctWords = correctWords;
     }
-//
-//    public TypingTest(int wpm, int correctWords) {
-//        this.wpm = wpm;
-//        this.correctWords = correctWords;
-//    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public int getTextId() {
+        return textId;
+    }
+
+    public void setTextId(int textId) {
+        this.textId = textId;
+    }
 
     public int getWpm() {
         return wpm;
@@ -53,34 +71,5 @@ public class TypingTest implements Comparable<TypingTest> {
                 ", wpm=" + wpm +
                 ", correctWords=" + correctWords +
                 '}';
-    }
-
-    @Override
-    public int compareTo(TypingTest o) {
-        return Integer.compare(o.wpm, this.wpm);
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getTextId() {
-        return textId;
-    }
-
-    public void setTextId(int textId) {
-        this.textId = textId;
     }
 }

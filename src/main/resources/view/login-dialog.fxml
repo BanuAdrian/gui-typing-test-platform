@@ -11,5 +11,5 @@
 
     <Label text="Enter your username:" style="-fx-font-size: 18px;" />
     <TextField fx:id="usernameField" promptText="Username" prefWidth="200" />
-    <Button text="Confirm" fx:id="confirmButton" prefWidth="100" style="-fx-background-color: #FFD700;" />
+    <Button text="Confirm" fx:id="confirmButton" prefWidth="100" style="-fx-background-color: #FFD700" />
 </VBox>

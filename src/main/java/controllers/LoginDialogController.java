@@ -1,5 +1,6 @@
 package controllers;
 
+import exceptions.InvalidUsernameException;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -22,12 +23,7 @@ public class LoginDialogController {
 
     private void handleConfirm() {
         username = usernameField.getText();
-        if (username != null && !username.trim().isEmpty()) {
-            System.out.println("Entered username: " + username);
-            closeDialog();
-        } else {
-            System.out.println("Invalid username.");
-        }
+        closeDialog();
     }
 
     private void closeDialog() {
@@ -36,6 +32,9 @@ public class LoginDialogController {
     }
 
     public String getUsername() {
+        if (username == null || username.trim().isEmpty() || !username.matches("[A-z]+[A-z0-9]*")) {
+            throw new InvalidUsernameException("Invalid username. Please try again!");
+        }
         return username;
     }
 }

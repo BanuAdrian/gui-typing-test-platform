@@ -7,16 +7,11 @@ public class SpeedChallenge extends Challenge {
 
     public SpeedChallenge(int id, String name, String description, int score, int targetWpm) {
         super(id, name, description, score);
-//        super("Speed Challenge", "Finish with at least " + Integer.toString(targetWpm) + " WPM!", score);
         this.targetWpm = targetWpm;
     }
 
-    public SpeedChallenge(int score, int targetWpm) {
-        super("Speed Challenge", "Finish with at least " + Integer.toString(targetWpm) + " WPM!", score);
-        this.targetWpm = targetWpm;
-    }
+    @Override
     public boolean isCompleted(TypingSession typingSession) {
-
         return typingSession.getWpm() >= targetWpm;
     }
 }

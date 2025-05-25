@@ -1,14 +1,18 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import models.Challenge.Challenge;
+import models.Challenge.SpeedChallenge;
+import models.Challenge.TimeChallenge;
 import models.TypingSession;
 import models.enums.TextCategory;
 import services.MainService;
 
+import java.sql.Time;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +23,9 @@ public class TypingTestController {
     private Challenge challenge;
 
     @FXML
+    private Label titleLabel;
+
+    @FXML
 //    private Text textContainer;
     private TextFlow textContainer;
 
@@ -26,10 +33,14 @@ public class TypingTestController {
     @FXML
     private TextField textField;
 
+    @FXML
+    private Label statusLabel;
+
     private List<Text> characterTexts = new LinkedList<>();
     private String targetWord;
     private int cursorIndex;
     private int lastCursorIndex;
+    private boolean started = false;
 
     public TypingTestController(MainService mainService, TextCategory textCategory) {
          this.mainService = mainService;
@@ -47,6 +58,12 @@ public class TypingTestController {
 
     @FXML
     private void initialize() {
+        statusLabel.setVisible(false);
+
+        if (isChallenge) {
+            titleLabel.setText("Challenge: " + challenge.getDescription());
+        }
+
         String fullText = typingSession.getText().getContent();
 
 
@@ -58,17 +75,22 @@ public class TypingTestController {
 
 
         targetWord = typingSession.getTargetWord();
-        typingSession.start();
         textField.setOnKeyTyped(keyEvent -> processTypedCharacter(keyEvent.getCharacter()));
+
     }
 
     private void processTypedCharacter(String character) {
+        if (!started) {
+            typingSession.start();
+            started = true;
+        }
+
         if (targetWord == null) {
             return;
         }
 
         String typedText = textField.getText();
-        System.out.println("typed text: " + typedText);
+//        System.out.println("typed text: " + typedText);
 
         typingSession.processText(typedText);
         cursorIndex = lastCursorIndex + typedText.length();
@@ -78,15 +100,41 @@ public class TypingTestController {
             lastCursorIndex = cursorIndex;
             targetWord = typingSession.getTargetWord();
             if (targetWord == null) {
-                typingSession.stop();
-                if (isChallenge) {
-                    mainService.currentUserAddChallenge(challenge, typingSession);
-                } else {
-                    mainService.currentUserAddTypingTest(typingSession);
-                }
+                endTypingSession();
             }
         } else if (!typedText.isEmpty()) {
             updateHighlightedCharacters(typedText);
+        }
+    }
+
+    private void endTypingSession() {
+        typingSession.stop();
+        textField.setVisible(false);
+        statusLabel.setVisible(true);
+        if (isChallenge) {
+            mainService.currentUserAddChallenge(challenge, typingSession);
+            if (challenge.isCompleted(typingSession)) {
+                if (challenge instanceof TimeChallenge) {
+                    statusLabel.setText("Challenge completed in " +
+                            typingSession.getElapsedTimeSec() + " seconds!\n");
+                } else {
+                    statusLabel.setText("Challenge completed with " +
+                            typingSession.getWpm() + " WPM!\n");
+                }
+                statusLabel.setText(statusLabel.getText() + "You got " + challenge.getScore() + " points.");
+            } else {
+                if (challenge instanceof TimeChallenge) {
+                    statusLabel.setText("Challenge failed [" +
+                            typingSession.getElapsedTimeSec() + " seconds]\n");
+                } else {
+                    statusLabel.setText("Challenge failed [" +
+                            typingSession.getWpm() + " WPM]\n");
+                }
+                statusLabel.setText(statusLabel.getText() + "Better luck next time!");
+            }
+        } else {
+            statusLabel.setText("Done!\n" + typingSession.getWpm() + " WPM");
+            mainService.currentUserAddTypingTest(typingSession);
         }
     }
 

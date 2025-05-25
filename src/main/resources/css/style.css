@@ -1,37 +1,64 @@
-#loginButton {
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+* {
+    /*-fx-font: 14px "Courier New";*/
+    /*-fx-font: 14px "Verdana";*/
+    -fx-font-family: "Open Sans", sans-serif;
+    -fx-font-weight: 500;
+}
+
+.button {
+    /*-fx-font: 14px 'Consolas' !important;*/
+}
+
+.label {
+    -fx-text-fill: #2C3E50;
+    -fx-font-size: 20px;
+}
+
+#textContainer, #textField {
+    /*-fx-font-family: "Courier New";*/
+    -fx-font: 20px "Courier New";
+}
+
+.label-header {
+    /*-fx-font-family: "Comic Sans MS";*/
+}
+
+.button:hover {
+    -fx-opacity: 0.85;
+}
+
+.button:pressed {
+    -fx-translate-y: 1;
+    -fx-opacity: 0.75;
+}
+
+.btn-one {
     -fx-background-color: #FFD700;
     -fx-text-fill: black;
-    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-border-radius: 8px;
-    -fx-effect: dropshadow(gaussian, black, 3, 0.5, 0, 0);
+    -fx-background-radius: 8px;
+    -fx-font-size: 14px;
 }
 
-#titleLabel {
-    -fx-font-size: 28px;
-    -fx-font-weight: bold;
+.btn-two {
+    -fx-background-color: #3498DB;
     -fx-text-fill: white;
-    -fx-effect: dropshadow(gaussian, black, 3, 0.5, 0, 0);
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
 }
 
-#initVbox {
-    -fx-background-color: linear-gradient(to bottom, #4A90E2, #136EBE);
+.btn-three {
+    -fx-background-color: #1ABC9C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
 }
 
-.card {
-    -fx-background-color: white;
-    -fx-padding: 20px;
-    -fx-border-radius: 15px;
-}
-
-.shadow-lg {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 0);
-}
-
-.btn-block {
-    -fx-min-width: 300px;
-}
-
-.btn:hover {
-    -fx-opacity: 0.8;
+.btn-danger {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 8px;
 }

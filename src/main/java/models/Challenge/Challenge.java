@@ -1,21 +1,19 @@
 package models.Challenge;
 
 import models.ChallengeText;
+import models.Listable;
 import models.Text;
 import models.TypingSession;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Challenge {
+public abstract class Challenge implements Listable {
     private int id;
     private final String name;
     private final String description;
     private int score;
     private List<ChallengeText> challengeTextList = new ArrayList<>();
-//    private boolean isCompleted;
-//    private int score;
-
 
     public Challenge(int id, String name, String description, int score) {
         this.id = id;
@@ -33,13 +31,16 @@ public abstract class Challenge {
 
     public abstract boolean isCompleted(TypingSession typingSession);
 
-    public int getScore() {
-        return score;
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public String toString() {
-        return name;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getScore() {
+        return score;
     }
 
     public List<Text> getTexts() {
@@ -53,30 +54,17 @@ public abstract class Challenge {
         return description;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public List<ChallengeText> getChallengeTextList() {
         return challengeTextList;
     }
 
-    public void setChallengeTextList(List<ChallengeText> challengeTextList) {
-        this.challengeTextList = challengeTextList;
+    @Override
+    public String textWhenSelected() {
+        return description;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Challenge{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", description='" + description + '\'' +
-//                ", score=" + score +
-//                ", challengeTextList=" + challengeTextList +
-//                '}';
-//    }
+    @Override
+    public String textInList() {
+        return name;
+    }
 }

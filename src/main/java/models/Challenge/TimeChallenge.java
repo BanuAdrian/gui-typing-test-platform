@@ -7,14 +7,10 @@ public class TimeChallenge extends Challenge {
 
     public TimeChallenge(int id, String name, String description, int score, int targetSeconds) {
         super(id, name, description, score);
-        //        super("Time Challenge", "Finish in " + Integer.toString(targetSeconds) + " seconds!", score);
         this.targetSeconds = targetSeconds;
     }
 
-    public TimeChallenge(int score, int targetSeconds) {
-        super("Time Challenge", "Finish in " + Integer.toString(targetSeconds) + " seconds!", score);
-        this.targetSeconds = targetSeconds;
-    }
+    @Override
     public boolean isCompleted(TypingSession typingSession) {
         return typingSession.getElapsedTimeSec() <= targetSeconds;
     }
