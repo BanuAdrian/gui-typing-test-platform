@@ -11,6 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class NotificationRepository {
+    private static NotificationRepository instance;
+
+    private NotificationRepository() {}
+
+    public static NotificationRepository getInstance() {
+        if (instance == null) {
+            instance = new NotificationRepository();
+        }
+        return instance;
+    }
+
     public Optional<List<Notification>> getUserNotifications(int userId, Connection connection) {
         String sql = """
                 select *

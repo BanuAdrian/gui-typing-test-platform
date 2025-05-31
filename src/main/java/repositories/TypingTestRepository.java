@@ -11,6 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class TypingTestRepository {
+    private static TypingTestRepository instance;
+
+    private TypingTestRepository() {}
+
+    public static TypingTestRepository getInstance() {
+        if (instance == null) {
+            instance = new TypingTestRepository();
+        }
+        return instance;
+    }
+
     public void createTypingTest(TypingTest typingTest, Connection connection) {
         String sql = """
                 insert into typing_tests
@@ -38,31 +49,6 @@ public class TypingTestRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public Optional<List<TypingTest>> getTypingTests(Connection connection) {
-        String sql = """
-                select *
-                from typing_tests
-                """;
-
-        try(PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                List<TypingTest> typingTestList = new ArrayList<>();
-                while (resultSet.next()) {
-                    int id = resultSet.getInt(1);
-                    int userId = resultSet.getInt(2);
-                    int textId = resultSet.getInt(3);
-                    int wpm = resultSet.getInt(4);
-                    int correctWords = resultSet.getInt(5);
-                    typingTestList.add(new TypingTest(id, userId, textId, wpm, correctWords));
-                }
-                return Optional.of(typingTestList);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return Optional.empty();
     }
 
     public Optional<List<TypingTest>> getTypingTestsForUser(int userId, Connection connection) {

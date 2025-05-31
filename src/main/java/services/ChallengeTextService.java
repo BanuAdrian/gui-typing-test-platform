@@ -11,10 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class ChallengeTextService {
+    private static ChallengeTextService instance;
     private final ChallengeTextRepository challengeTextRepository;
 
-    public ChallengeTextService(ChallengeTextRepository challengeTextRepository) {
+    private ChallengeTextService(ChallengeTextRepository challengeTextRepository) {
         this.challengeTextRepository = challengeTextRepository;
+    }
+
+    public static ChallengeTextService getInstance() {
+        if (instance == null) {
+            instance = new ChallengeTextService(ChallengeTextRepository.getInstance());
+        }
+        return instance;
     }
 
     public List<ChallengeText> getChallengeTexts(int challengeId) {

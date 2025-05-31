@@ -2,6 +2,8 @@ package repositories;
 
 import models.Challenge.SpeedChallenge;
 import models.Challenge.TimeChallenge;
+import models.ChallengeFactory.SpeedChallengeFactory;
+import models.ChallengeFactory.TimeChallengeFactory;
 import models.UserChallenge;
 import models.enums.ChallengeType;
 
@@ -14,6 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserChallengeRepository {
+    private static UserChallengeRepository instance;
+    private SpeedChallengeFactory speedChallengeFactory = new SpeedChallengeFactory();
+    private TimeChallengeFactory timeChallengeFactory = new TimeChallengeFactory();
+
+    private UserChallengeRepository() {}
+
+    public static UserChallengeRepository getInstance() {
+        if (instance == null) {
+            instance = new UserChallengeRepository();
+        }
+        return instance;
+    }
+
     public Optional<List<UserChallenge>> getUserChallenges(int userId, Connection connection) {
         String sql = """
                 select *
@@ -37,10 +52,10 @@ public class UserChallengeRepository {
                     int score = resultSet.getInt(9);
                     if (challengeType == ChallengeType.SPEED) {
                         int targetWpm = resultSet.getInt(10);
-                        userChallengeList.add(new UserChallenge(userId, challengeId, isCompleted, new SpeedChallenge(challengeId, challengeName, description, score, targetWpm)));
+                        userChallengeList.add(new UserChallenge(userId, challengeId, isCompleted, speedChallengeFactory.createChallenge(challengeId, challengeName, description, score, targetWpm)));
                     } else if (challengeType == ChallengeType.TIME) {
                         int targetSeconds = resultSet.getInt(11);
-                        userChallengeList.add(new UserChallenge(userId, challengeId, isCompleted, new TimeChallenge(challengeId, challengeName, description, score, targetSeconds)));
+                        userChallengeList.add(new UserChallenge(userId, challengeId, isCompleted, timeChallengeFactory.createChallenge(challengeId, challengeName, description, score, targetSeconds)));
                     }
                 }
 

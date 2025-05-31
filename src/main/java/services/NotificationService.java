@@ -11,10 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class NotificationService {
+    private static NotificationService instance;
     private final NotificationRepository notificationRepository;
 
-    public NotificationService(NotificationRepository notificationRepository) {
+    private NotificationService(NotificationRepository notificationRepository) {
         this.notificationRepository = notificationRepository;
+    }
+
+    public static NotificationService getInstance() {
+        if (instance == null) {
+            instance = new NotificationService(NotificationRepository.getInstance());
+        }
+        return instance;
     }
 
     public List<Notification> getUserNotifications(int userId) {

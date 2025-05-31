@@ -3,6 +3,8 @@ package repositories;
 import models.Challenge.Challenge;
 import models.Challenge.SpeedChallenge;
 import models.Challenge.TimeChallenge;
+import models.ChallengeFactory.SpeedChallengeFactory;
+import models.ChallengeFactory.TimeChallengeFactory;
 import models.enums.ChallengeType;
 
 import java.sql.Connection;
@@ -36,6 +38,18 @@ import java.util.Optional;
 
 
 public class ChallengeRepository {
+    private static ChallengeRepository instance;
+    private SpeedChallengeFactory speedChallengeFactory = new SpeedChallengeFactory();
+    private TimeChallengeFactory timeChallengeFactory = new TimeChallengeFactory();
+
+    private ChallengeRepository() {}
+
+    public static ChallengeRepository getInstance() {
+        if (instance == null) {
+            instance = new ChallengeRepository();
+        }
+        return instance;
+    }
 
     public Optional<List<Challenge>> getChallenges(Connection connection) {
         String sql = """
@@ -54,10 +68,11 @@ public class ChallengeRepository {
                     int score = resultSet.getInt(5);
                     if (challengeType == ChallengeType.SPEED) {
                         int targetWpm = resultSet.getInt(6);
-                        challengeList.add(new SpeedChallenge(challengeId, challengeName, description, score, targetWpm));
+//                        challengeList.add(new SpeedChallenge(challengeId, challengeName, description, score, targetWpm));
+                        challengeList.add(speedChallengeFactory.createChallenge(challengeId, challengeName, description, score, targetWpm));
                     } else if (challengeType == ChallengeType.TIME) {
                         int targetSeconds = resultSet.getInt(7);
-                        challengeList.add(new TimeChallenge(challengeId, challengeName, description, score, targetSeconds));
+                        challengeList.add(timeChallengeFactory.createChallenge(challengeId, challengeName, description, score, targetSeconds));
                     }
                 }
                 return Optional.of(challengeList);

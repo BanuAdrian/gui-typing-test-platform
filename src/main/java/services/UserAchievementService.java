@@ -11,10 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserAchievementService {
+    private static UserAchievementService instance;
     private final UserAchievementRepository userAchievementsRepository;
 
-    public UserAchievementService(UserAchievementRepository userAchievementsRepository) {
+    private UserAchievementService(UserAchievementRepository userAchievementsRepository) {
         this.userAchievementsRepository = userAchievementsRepository;
+    }
+
+    public static UserAchievementService getInstance() {
+        if (instance == null) {
+            instance = new UserAchievementService(UserAchievementRepository.getInstance());
+        }
+        return instance;
     }
 
     public void createUserAchievement(int userId, int achievementId) {
@@ -23,16 +31,6 @@ public class UserAchievementService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public List<UserAchievement> getAllUsersAchievements() {
-        try(Connection connection = ConnectionProvider.getConnection()) {
-            Optional<List<UserAchievement>> allUsersAchievementsOptional = userAchievementsRepository.getAllUsersAchievements(connection);
-            return allUsersAchievementsOptional.orElse(Collections.emptyList());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new RuntimeException();
     }
 
     public List<UserAchievement> getUserAchievements(int userId) {

@@ -1,12 +1,15 @@
 package models;
 
 import exceptions.BadTimerHandlingException;
+import services.LoggingService;
 
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
 public class TypingSession {
+    private static final LoggingService loggingService = LoggingService.getInstance();
+
     private TestTimer testTimer;
     private Text text;
     private int wpm;

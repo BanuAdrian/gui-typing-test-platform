@@ -11,10 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class ChallengeService {
+    private static ChallengeService instance;
     private final ChallengeRepository challengeRepository;
 
-    public ChallengeService(ChallengeRepository challengeRepository) {
+    private ChallengeService(ChallengeRepository challengeRepository) {
         this.challengeRepository = challengeRepository;
+    }
+
+    public static ChallengeService getInstance() {
+        if (instance == null) {
+            instance = new ChallengeService(ChallengeRepository.getInstance());
+        }
+        return instance;
     }
 
     public List<Challenge> getChallenges() {

@@ -15,6 +15,7 @@ import models.Challenge.Challenge;
 import models.LeaderboardEntry;
 import models.Notification;
 import models.Text;
+import models.enums.ActionType;
 import models.enums.TextCategory;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import services.*;
@@ -23,6 +24,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class MainMenuController {
+    private static final LoggingService loggingService = LoggingService.getInstance();
+
     private final MainService mainService;
     private String typedUsername;
     private Scene startScreenScene;
@@ -93,6 +96,7 @@ public class MainMenuController {
 
             stage.showAndWait();
 
+            loggingService.log(ActionType.CHOOSE_TEXT_CATEGORY);
             TextCategoryDialogController controller = fxmlLoader.getController();
             //            System.out.println(textCategory);
 
@@ -149,6 +153,8 @@ public class MainMenuController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(fxmlLoader.load());
 
+            loggingService.log(ActionType.VIEW_WPM_LEADERBOARD);
+
 //            Scene scene = new Scene(fxmlLoader.load());
 //            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 //            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -174,6 +180,7 @@ public class MainMenuController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(fxmlLoader.load());
 
+            loggingService.log(ActionType.VIEW_ACHIEVEMENTS);
 //            Scene scene = new Scene(fxmlLoader.load());
 //            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 //            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -200,6 +207,7 @@ public class MainMenuController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(fxmlLoader.load());
 
+            loggingService.log(ActionType.VIEW_NOTIFICATIONS);
 //            Scene scene = new Scene(fxmlLoader.load());
 //            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 //            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -225,6 +233,7 @@ public class MainMenuController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(fxmlLoader.load());
 
+            loggingService.log(ActionType.VIEW_COMPLETED_CHALLENGES);
 //            Scene scene = new Scene(fxmlLoader.load());
 //            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 //            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -250,6 +259,7 @@ public class MainMenuController {
             contentArea.getChildren().clear();
             contentArea.getChildren().add(fxmlLoader.load());
 
+            loggingService.log(ActionType.VIEW_SCORE_LEADERBOARD);
 //            Scene scene = new Scene(fxmlLoader.load());
 //            scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 //            scene.getStylesheets().add(getClass().getResource("/css/style.css").toExternalForm());
@@ -269,5 +279,6 @@ public class MainMenuController {
         stage.setScene(startScreenScene);
         stage.setTitle("Typing Test Platform");
         stage.show();
+        loggingService.log(ActionType.LOGOUT);
     }
 }

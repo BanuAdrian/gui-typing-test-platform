@@ -13,6 +13,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class ChallengeTextRepository {
+    private static ChallengeTextRepository instance;
+
+    private ChallengeTextRepository() {}
+
+    public static ChallengeTextRepository getInstance() {
+        if (instance == null) {
+            instance = new ChallengeTextRepository();
+        }
+        return instance;
+    }
+
     public Optional<List<ChallengeText>> getChallengeTexts(int challengeId, Connection connection) {
         String sql = """
                 select t.id, t.text_category, t.content

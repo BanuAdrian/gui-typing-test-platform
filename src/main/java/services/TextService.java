@@ -9,10 +9,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class TextService {
+    private static TextService instance;
     private final TextRepository textRepository;
 
-    public TextService(TextRepository textRepository) {
+    private TextService(TextRepository textRepository) {
         this.textRepository = textRepository;
+    }
+
+    public static TextService getInstance() {
+        if (instance == null) {
+            instance = new TextService(TextRepository.getInstance());
+        }
+        return instance;
     }
 
     public List<Text> getTexts() {

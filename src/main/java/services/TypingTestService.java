@@ -11,10 +11,18 @@ import java.util.List;
 import java.util.Optional;
 
 public class TypingTestService {
+    private static TypingTestService instance;
     private final TypingTestRepository typingTestRepository;
 
-    public TypingTestService(TypingTestRepository typingTestRepository) {
+    private TypingTestService(TypingTestRepository typingTestRepository) {
         this.typingTestRepository = typingTestRepository;
+    }
+
+    public static TypingTestService getInstance() {
+        if (instance == null) {
+            instance = new TypingTestService(TypingTestRepository.getInstance());
+        }
+        return instance;
     }
 
     public void createTypingTest(TypingTest typingTest) {
@@ -23,17 +31,6 @@ public class TypingTestService {
         } catch(SQLException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public List<TypingTest> getTypingTests() {
-        try(Connection connection = ConnectionProvider.getConnection()) {
-            Optional<List<TypingTest>> typingTestsOptional = typingTestRepository.getTypingTests(connection);
-            return typingTestsOptional.orElse(Collections.emptyList());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        throw new RuntimeException();
     }
 
     public List<TypingTest> getTypingTestsForUser(int userId) {

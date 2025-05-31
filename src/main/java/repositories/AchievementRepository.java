@@ -3,6 +3,8 @@ package repositories;
 import models.Achievement.Achievement;
 import models.Achievement.SpeedAchievement;
 import models.Achievement.TestsTakenAchievement;
+import models.AchievementFactory.SpeedAchievementFactory;
+import models.AchievementFactory.TestsTakenAchievementFactory;
 import models.enums.AchievementType;
 
 import java.sql.Connection;
@@ -14,6 +16,19 @@ import java.util.List;
 import java.util.Optional;
 
 public class AchievementRepository {
+    private static AchievementRepository instance;
+    private SpeedAchievementFactory speedAchievementFactory = new SpeedAchievementFactory();
+    private TestsTakenAchievementFactory testsTakenAchievementFactory = new TestsTakenAchievementFactory();
+
+    private AchievementRepository() {}
+
+    public static AchievementRepository getInstance() {
+        if (instance == null) {
+            instance = new AchievementRepository();
+        }
+        return instance;
+    }
+
     public Optional<List<Achievement>> getAchievements(Connection connection) {
         String sql = """
                 select *
@@ -31,10 +46,10 @@ public class AchievementRepository {
                     AchievementType achievementType = AchievementType.valueOf(resultSet.getString(4));
                     if (achievementType == AchievementType.SPEED) {
                         int requiredWpm = resultSet.getInt(5);
-                        achievementList.add(new SpeedAchievement(achievementId, name, description, requiredWpm));
+                        achievementList.add(speedAchievementFactory.createAchievement(achievementId, name, description, requiredWpm));
                     } else if (achievementType == AchievementType.TESTS_TAKEN) {
                         int requiredTests = resultSet.getInt(6);
-                        achievementList.add(new TestsTakenAchievement(achievementId, name, description, requiredTests));
+                        achievementList.add(testsTakenAchievementFactory.createAchievement(achievementId, name, description, requiredTests));
                     }
                 }
                 return Optional.of(achievementList);

@@ -2,10 +2,13 @@ package models;
 
 import models.Achievement.Achievement;
 import models.Challenge.Challenge;
+import models.enums.ActionType;
+import services.LoggingService;
+import services.NotificationService;
 
 import java.util.*;
 
-public class User {
+public class User implements NotificationListener {
     private int id;
     private String username;
     private List<UserChallenge> userChallengeList = new ArrayList<>();
@@ -106,5 +109,14 @@ public class User {
                 "id=" + id +
                 ", username='" + username + '\'' +
                 '}';
+    }
+
+    @Override
+    public void update(String usernameWithBetterWpm, NotificationService notificationService, LoggingService loggingService) {
+        Notification notification = new Notification(id, "User " + usernameWithBetterWpm + " beat your " + calculateBestWpm() + " WPM record!");
+        if (notifications.add(notification)) {
+            notificationService.createNotification(notification);
+            loggingService.log(ActionType.SEND_NOTIFICATION);
+        }
     }
 }

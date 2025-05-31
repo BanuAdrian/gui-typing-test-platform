@@ -11,6 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 public class UserRepository {
+    private static UserRepository instance;
+
+    private UserRepository() {}
+
+    public static UserRepository getInstance() {
+        if (instance == null) {
+            instance = new UserRepository();
+        }
+        return instance;
+    }
+
     public void createUser(User user, Connection connection) {
         String sql = """
                 insert into users (username)

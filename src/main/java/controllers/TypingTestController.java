@@ -9,7 +9,9 @@ import models.Challenge.Challenge;
 import models.Challenge.SpeedChallenge;
 import models.Challenge.TimeChallenge;
 import models.TypingSession;
+import models.enums.ActionType;
 import models.enums.TextCategory;
+import services.LoggingService;
 import services.MainService;
 
 import java.sql.Time;
@@ -17,6 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class TypingTestController {
+    private static final LoggingService loggingService = LoggingService.getInstance();
+
     private MainService mainService;
     private TypingSession typingSession;
     private boolean isChallenge = false;
@@ -83,6 +87,11 @@ public class TypingTestController {
         if (!started) {
             typingSession.start();
             started = true;
+            if (isChallenge) {
+                loggingService.log(ActionType.START_RANDOM_CHALLENGE);
+            } else {
+                loggingService.log(ActionType.START_TYPING_TEST);
+            }
         }
 
         if (targetWord == null) {
@@ -112,6 +121,7 @@ public class TypingTestController {
         textField.setVisible(false);
         statusLabel.setVisible(true);
         if (isChallenge) {
+            loggingService.log(ActionType.VERIFY_CHALLENGE_CRITERIA);
             mainService.currentUserAddChallenge(challenge, typingSession);
             if (challenge.isCompleted(typingSession)) {
                 if (challenge instanceof TimeChallenge) {
@@ -133,6 +143,7 @@ public class TypingTestController {
                 statusLabel.setText(statusLabel.getText() + "Better luck next time!");
             }
         } else {
+            loggingService.log(ActionType.CALCULATE_WPM);
             statusLabel.setText("Done!\n" + typingSession.getWpm() + " WPM");
             mainService.currentUserAddTypingTest(typingSession);
         }

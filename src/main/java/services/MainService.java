@@ -3,6 +3,7 @@ package services;
 import models.Achievement.Achievement;
 import models.Challenge.Challenge;
 import models.*;
+import models.enums.ActionType;
 import models.enums.LeaderboardType;
 import models.enums.TextCategory;
 import repositories.*;
@@ -11,15 +12,18 @@ import java.io.IOException;
 import java.util.*;
 
 public class MainService {
-    private static final UserService userService = new UserService(new UserRepository());
-    private static final TextService textService = new TextService(new TextRepository());
-    private static final TypingTestService typingTestService = new TypingTestService(new TypingTestRepository());
-    private static final AchievementService achievementService = new AchievementService(new AchievementRepository());
-    private static final UserAchievementService userAchievementsService = new UserAchievementService(new UserAchievementRepository());
-    private static final ChallengeService challengeService = new ChallengeService(new ChallengeRepository());
-    private static final ChallengeTextService challengeTextService = new ChallengeTextService(new ChallengeTextRepository());
-    private static final UserChallengeService userChallengeService = new UserChallengeService(new UserChallengeRepository());
-    private static final NotificationService notificationService = new NotificationService(new NotificationRepository());
+    private static final UserService userService = UserService.getInstance();
+    private static final TextService textService = TextService.getInstance();
+    private static final TypingTestService typingTestService = TypingTestService.getInstance();
+    private static final AchievementService achievementService = AchievementService.getInstance();
+    private static final UserAchievementService userAchievementsService = UserAchievementService.getInstance();
+    private static final ChallengeService challengeService = ChallengeService.getInstance();
+    private static final ChallengeTextService challengeTextService = ChallengeTextService.getInstance();
+    private static final UserChallengeService userChallengeService = UserChallengeService.getInstance();
+    private static final NotificationService notificationService = NotificationService.getInstance();
+
+    private static final LoggingService loggingService = LoggingService.getInstance();
+    private static final NotificationManager notificationManager = new NotificationManager();
 
     private User currentUser;
     private final Map<String, User> users = new HashMap<>();
@@ -31,6 +35,7 @@ public class MainService {
     private final Map<Integer, List<String>> scoreLeaderboard = new TreeMap<>(Comparator.reverseOrder());
 
     public MainService(String username) {
+        loggingService.log(ActionType.LOGIN);
         initExistingUsers();
         initTexts();
         initAchievements();
@@ -78,11 +83,13 @@ public class MainService {
             currentUserInitNotifications();
             currentUserInitAchievements();
             System.out.println("Welcome back, " + currentUser.getUsername() + "!");
+            loggingService.log(ActionType.LOAD_USER_DATA);
         } else {
             currentUser = new User(username);
             userService.createUser(currentUser);
             users.put(currentUser.getUsername(), currentUser);
             System.out.println("Welcome, " + currentUser.getUsername() + "!");
+            loggingService.log(ActionType.REGISTER_NEW_USER);
         }
     }
 
@@ -117,6 +124,7 @@ public class MainService {
                 }
             }
         }
+        loggingService.log(ActionType.UPDATE_SCORE_LEADERBOARD);
     }
 
     public void updateWpmLeaderboard() {
@@ -139,6 +147,8 @@ public class MainService {
         if (!initUpdate && (currentUserCurrentPlace < currentUserLastPlace)) {
             sendNotifications(currentUserCurrentPlace, currentUserLastPlace);
         }
+
+        loggingService.log(ActionType.UPDATE_WPM_LEADERBOARD);
     }
 
     public int currentUserGetLeaderboardPlace() {
@@ -170,11 +180,15 @@ public class MainService {
                 .toArray();
         for (int i = currentUserCurrentPlace; i < currentUserLastPlace; ++i) {
             User userToNotify = users.get((String)leaderboardUsernames[i]);
-            Notification notification = new Notification(userToNotify.getId(), "User " + currentUser.getUsername() + " beat your " + userToNotify.calculateBestWpm() + " WPM record!");
-            if (userToNotify.getNotifications().add(notification)) {
-                notificationService.createNotification(notification);
-            }
+            notificationManager.subscribe(userToNotify);
+//            Notification notification = new Notification(userToNotify.getId(), "User " + currentUser.getUsername() + " beat your " + userToNotify.calculateBestWpm() + " WPM record!");
+//            if (userToNotify.getNotifications().add(notification)) {
+//                notificationService.createNotification(notification);
+//                loggingService.log(ActionType.SEND_NOTIFICATION);
+//            }
         }
+        notificationManager.notify(currentUser.getUsername(), notificationService, loggingService);
+        notificationManager.unsubscribeAll();
 //        for (int i = currentUserCurrentPlace - 2; i >= 0; --i) {
 //            User userToNotify = users.get((String)leaderboardUsernames[i]);
 //
@@ -216,6 +230,7 @@ public class MainService {
     public void currentUserRemoveNotification(Notification notificationToRemove) {
         currentUser.getNotifications().remove(notificationToRemove);
         notificationService.deleteNotification(notificationToRemove.getNotificationId());
+        loggingService.log(ActionType.DELETE_NOTIFICATION);
     }
 
     public void checkAchievements() {
@@ -226,6 +241,7 @@ public class MainService {
                 userAchievementsService.createUserAchievement(currentUser.getId(), achievement.getId());
             }
         }
+        loggingService.log(ActionType.CHECK_ACHIEVEMENTS);
 
     }
 
