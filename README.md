@@ -38,3 +38,7 @@
 18. Users can delete their own notifications
 19. Users can log out from the system
 
+# Entity Relationship Diagram
+
+![image](https://github.com/user-attachments/assets/b5a7e586-c696-4967-8f5c-5c08177ccf0a)
+
